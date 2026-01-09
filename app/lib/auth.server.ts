@@ -13,9 +13,9 @@ export interface HostUser {
 
 export const authenticator = new Authenticator<HostUser>(sessionStorage);
 
-if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET || !process.env.APP_URL) {
   console.warn(
-    "GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET not set. Google OAuth will not work."
+    "GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, or APP_URL not set. Google OAuth will not work."
   );
 } else {
   const googleStrategy = new OAuth2Strategy(
@@ -24,7 +24,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       authorizationEndpoint: "https://accounts.google.com/o/oauth2/v2/auth",
       tokenEndpoint: "https://oauth2.googleapis.com/token",
-      redirectURI: `${process.env.APP_URL || "http://localhost:5173"}/auth/google/callback`,
+      redirectURI: `${process.env.APP_URL}/auth/google/callback`,
       scopes: ["openid", "email", "profile"],
     },
     async ({ tokens }) => {

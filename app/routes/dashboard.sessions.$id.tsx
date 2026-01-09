@@ -219,7 +219,7 @@ export default function SessionEdit({ loaderData, actionData }: Route.ComponentP
 
           {session.isShareEnabled && (
             <div style={{ padding: "1rem", backgroundColor: "#e3f2fd", borderRadius: "4px", marginBottom: "1rem" }}>
-              <strong>公開URL:</strong> {typeof window !== 'undefined' ? window.location.origin : ''}/s/{session.publicId}
+              <strong>公開URL:</strong> /s/{session.publicId}
             </div>
           )}
 

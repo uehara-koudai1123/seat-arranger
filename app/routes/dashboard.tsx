@@ -109,7 +109,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
                     </span>
                     {session.isShareEnabled && (
                       <span style={{ marginLeft: "1rem", color: "#666" }}>
-                        URL: {typeof window !== 'undefined' ? window.location.origin : ''}/s/{session.publicId}
+                        URL: /s/{session.publicId}
                       </span>
                     )}
                   </div>

@@ -246,6 +246,16 @@ export default function PublicSession({ loaderData, actionData }: Route.Componen
           <h2>配置案を提出</h2>
           <p>あなたの考える座席配置案を提出してください。</p>
           
+          <div style={{ padding: "1rem", backgroundColor: "#f5f5f5", borderRadius: "4px", marginBottom: "1rem" }}>
+            <strong>JSON形式の説明：</strong>
+            <p style={{ margin: "0.5rem 0 0 0", fontSize: "0.9rem" }}>
+              座席の配列として、各座席に以下の情報を含めてください：<br/>
+              - x: X座標（数値）<br/>
+              - y: Y座標（数値）<br/>
+              - assignedTo: 配置する人の名前（文字列、任意）
+            </p>
+          </div>
+          
           <Form method="post" style={{ marginTop: "1rem" }}>
             <input type="hidden" name="_action" value="submitProposal" />
             
@@ -257,7 +267,7 @@ export default function PublicSession({ loaderData, actionData }: Route.Componen
                 id="layoutJson"
                 name="layoutJson"
                 rows={10}
-                placeholder='例: [{"x": 0, "y": 0, "assignedTo": "田中"}, {"x": 1, "y": 0, "assignedTo": "佐藤"}]'
+                placeholder='[{"x": 0, "y": 0, "assignedTo": "田中"}, {"x": 1, "y": 0, "assignedTo": "佐藤"}]'
                 style={{
                   width: "100%",
                   padding: "12px",
