@@ -1,14 +1,4 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "build/client",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "framework": null,
-  "env": {
-    "DATABASE_URL": "@database_url",
-    "GOOGLE_CLIENT_ID": "@google_client_id",
-    "GOOGLE_CLIENT_SECRET": "@google_client_secret",
-    "SESSION_SECRET": "@session_secret",
-    "APP_URL": "@app_url"
-  }
+  "installCommand": "npm install && npm run db:generate"
 }
