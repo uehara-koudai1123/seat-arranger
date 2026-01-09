@@ -1,0 +1,89 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Host {
+  id        String   @id @default(cuid())
+  provider  String   // "google"
+  sub       String   // OAuth subject identifier (unique per provider)
+  email     String?
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions Session[]
+
+  @@unique([provider, sub])
+  @@index([provider, sub])
+}
+
+model Session {
+  id             String   @id @default(cuid())
+  publicId       String   @unique @default(cuid())
+  title          String
+  description    String?
+  isShareEnabled Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  hostId String
+  host   Host   @relation(fields: [hostId], references: [id], onDelete: Cascade)
+
+  seats        Seat[]
+  participants Participant[]
+  proposals    Proposal[]
+
+  @@index([hostId])
+  @@index([publicId])
+}
+
+model Seat {
+  id        String   @id @default(cuid())
+  x         Int
+  y         Int
+  label     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessionId String
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, x, y])
+  @@index([sessionId])
+}
+
+model Participant {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessionId String
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  proposals Proposal[]
+
+  @@index([sessionId])
+}
+
+model Proposal {
+  id         String   @id @default(cuid())
+  layoutJson String   @db.Text // JSON string of the entire seat layout
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  sessionId String
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  participantId String
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@index([participantId])
+}
